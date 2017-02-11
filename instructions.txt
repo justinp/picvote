@@ -1,0 +1,54 @@
+# Picture voting application
+
+We'll be building a picture voting application with the Burner app.
+
+## Requirements
+
+Burner numbers have support for inbound and outbound Webhooks. This allows for a developer to plug his/her API into
+a Burner and get events about it’s usage (inbound text, inbound media, voicemail). Please visit
+http://developer.burnerapp.com for more info.
+
+The goal of this exercise is to build a picture voting application on top of a phone number. When people send a
+picture message to the number we'll get the appropriate event with picture URL and store the picture in a folder on
+Dropbox. People can also vote for a picture (assuming user will share that folder for everybody to see the pictures)
+by texting it's name, pic1.jpg for example. If the text is one of the pictures we have, then we add one vote for
+that picture. We'll also provide a way to report how many votes each picture has received.
+
+To make it simpler we won't handle following cases for our initial version:
+
+* User having more than one number. Right now we'll assume user has one number connected to our endpoint.
+* Limit how many times someone can vote for a picture. Technically we can see that fromNumber +19998887777 already
+voted for pic1.jpg and not add a vote for that picture but we're gonna skip it for the time being.
+
+## Implementation
+
+We'll write a rest api to implement this in Scala. Api should have following endpoints:
+
+POST /event
+This endpoint will be called from Burner and get the JSON events mentioned above.
+
+GET /report
+This endpoint should return a JSON dictionary where key is picture name in dropbox folder and value is number of votes it has.
+
+### Notes
+Implementation should use REST calls to dropbox instead of using an SDK.
+Provide a way to easily review your code such as a public git repo.
+Provide instructions on how to specify Dropbox token, Dropbox folder, how to run the api you built, etc (One paragraph in README should be enough).
+
+### Testing
+Hopefully once you have it written you can get an MMS Burner, connect developer connection and put the url to your service (to have a publicly accessible url of a service running in your dev laptop you can use the free version of ngrok).
+_Provide your phone number before you start and we'll be happy to give you some free Burner credits you can use to buy an MMS Burner._
+
+## Helpful information
+
+Documentation for Burner developer connection
+> http://developer.burnerapp.com
+
+Where to get ngrok (if you need it)
+> https://ngrok.com/
+
+To save a file to dropbox
+> https://www.dropbox.com/developers/documentation/http/documentation#files-save_url
+
+To get list of the files in dropbox folder
+> https://www.dropbox.com/developers/documentation/http/documentation#paper-docs-list
